@@ -43,10 +43,15 @@ Las cinco estrategias simuladas son:
 <!-- CAPTURA: ruleta.R líneas 73 a 99 -->
 ![sim_duplicacion_op2](capturas/sim_duplicacion_op2.png)
 
-### Estrategias E3a y E3b: ciclo dinámico — `ruleta.R`, líneas 104–177
+### Estrategia E3a: ciclo dinámico opción 1 — `ruleta.R`, líneas 104–148
 
-<!-- CAPTURA: ruleta.R líneas 104 a 177 (hacé dos capturas: 104-148 y 150-177) -->
-![sim_ciclo_op1 y op2](capturas/sim_ciclo.png)
+<!-- CAPTURA: ruleta.R líneas 104 a 148 -->
+![sim_ciclo_op1](capturas/sim_ciclo_op1.png)
+
+### Estrategia E3b: ciclo dinámico opción 2 — `ruleta.R`, líneas 150–177
+
+<!-- CAPTURA: ruleta.R líneas 150 a 177 -->
+![sim_ciclo_op2](capturas/sim_ciclo_op2.png)
 
 ---
 
@@ -54,11 +59,16 @@ Las cinco estrategias simuladas son:
 
 Se simuló una sesión de `n = 100` tiradas para cada estrategia con `set.seed(42)`.
 
-<!-- CAPTURA: consola de RStudio mostrando el output de la Actividad 3 (o copiá el texto) -->
-![Resultados sesión única](capturas/actividad3_output.png)
+| Estrategia | Capital final | Ganancia neta | Tiradas jugadas |
+|---|---|---|---|
+| E1: Apuesta fija | 52 | +2 | 100 |
+| E2a: Duplicación op.1 | 106 | +56 | 100 |
+| E2b: Duplicación op.2 | 1 | −49 | 32 |
+| E3a: Ciclo dinámico op.1 | 9 | −41 | 21 |
+| E3b: Ciclo dinámico op.2 | 10 | −40 | 30 |
 
 **Observaciones sobre esta sesión:**  
-Una sola sesión no permite extraer conclusiones generales sobre la superioridad de una estrategia. Los resultados dependen en gran medida de la secuencia aleatoria de tiradas. La aleatoriedad de un único experimento puede hacer que una estrategia "ineficiente" parezca mejor que otra. Es necesario repetir el experimento muchas veces para estimar el comportamiento promedio esperado.
+Esta sesión ilustra la alta variabilidad entre estrategias incluso dentro de una misma secuencia de tiradas. E2a obtuvo una ganancia extraordinaria de +56 fichas (capital casi duplicado), mientras que E2b terminó con apenas 1 ficha y solo 32 tiradas, y E3a agotó su ciclo dinámico en solo 21 tiradas con pérdida de −41. Estos resultados contradictorios entre estrategias que comparten la misma secuencia de ruleta muestran que **una sola sesión no permite extraer conclusiones generales**. Es necesario repetir el experimento muchas veces para estimar el comportamiento promedio.
 
 ---
 
@@ -68,10 +78,15 @@ Se simularon `nRep = 10 000` días independientes con cada una de las cinco estr
 
 ### Tabla de métricas
 
-<!-- CAPTURA: consola mostrando la tabla impresa por analisis.R, Actividad 4 -->
-![Tabla de métricas](capturas/actividad4_tabla.png)
+| Estrategia | Gan. prom. | Prop. gana | Prop. pierde | Prop. ruina | Media máx. ap. | Media tot. ap. | Var. ganancia |
+|---|---|---|---|---|---|---|---|
+| E1: Apuesta fija | −2.5854 | 0.3616 | 0.5611 | 0.0000 | 1.00 | 100.00 | 100.53 |
+| E2a: Duplicación op.1 | −4.9739 | 0.3122 | 0.6878 | 0.0103 | 23.23 | 164.33 | 1402.89 |
+| E2b: Duplicación op.2 | −4.5941 | 0.3159 | 0.6841 | 0.0107 | 23.32 | 165.20 | 1400.50 |
+| E3a: Ciclo dinámico op.1 | −1.6406 | 0.7768 | 0.2232 | 0.0086 | 8.64 | 63.17 | 476.63 |
+| E3b: Ciclo dinámico op.2 | −9.0079 | 0.2785 | 0.7210 | 0.0262 | 17.57 | 338.36 | 2637.03 |
 
-*(Columnas: ganancia promedio diaria, proporción de días ganadores, proporción de días perdedores, proporción de ruina, media de la apuesta máxima diaria, media del total apostado diario, varianza de la ganancia neta.)*
+*(Gan. prom.: ganancia neta promedio por día; Prop. gana/pierde: proporción de días con resultado positivo/negativo; Prop. ruina: proporción de días donde se pierde todo el capital; Media máx. ap.: media de la apuesta más alta realizada cada día; Media tot. ap.: media del total apostado por día; Var. ganancia: varianza de la ganancia neta diaria.)*
 
 ### Histogramas de ganancia neta diaria
 
@@ -89,19 +104,23 @@ Se mantuvo fijo `n = 100` y `C = 50`, variando `m` en {8, 16, 32, 64}.
 
 ### Tabla de resultados
 
-<!-- CAPTURA: consola mostrando la tabla de la Actividad 5 -->
-![Tabla efecto de m](capturas/actividad5_tabla.png)
+| Apuesta máx. (m) | Ganancia promedio | Prop. días ganadores | Prop. ruina |
+|---|---|---|---|
+| 8 | −1.6435 | 0.3172 | 0.0000 |
+| 16 | −3.2976 | 0.3144 | 0.0000 |
+| 32 | −4.6160 | 0.3151 | 0.0112 |
+| 64 | −4.3311 | 0.3192 | 0.0110 |
 
 ### Gráfico de indicadores en función de m
 
 ![Efecto de la apuesta máxima](efecto_apuesta_maxima.png)
 
 **Análisis:**  
-A medida que aumenta el límite de apuesta `m`, la estrategia de duplicación puede encadenar más pérdidas consecutivas antes de verse forzada a detenerse. Esto tiene dos efectos contrapuestos:
+A medida que aumenta el límite `m`, la estrategia de duplicación puede encadenar más pérdidas antes de verse forzada a detenerse. Los resultados muestran:
 
-- **Mayor proporción de días ganadores:** con un `m` alto el jugador tiene más chances de recuperar rachas perdedoras antes de que se acabe el ciclo, lo que aumenta los días en que termina con ganancia positiva.
-- **Mayor riesgo de ruina:** cuando la racha negativa supera la capacidad del capital (C = 50), el jugador pierde todo. Un `m` más alto implica apostar sumas más grandes en cada racha, lo que acelera el agotamiento del capital cuando las cosas salen mal.
-- **Ganancia promedio:** sigue siendo negativa en todos los casos por el efecto estructural de la ventaja de la casa (`-1/37` por ficha apostada).
+- **Ganancia promedio empeora con m:** con m=8 la pérdida promedio es −1.64, y con m=32 alcanza −4.62. Esto ocurre porque un `m` mayor permite secuencias de pérdida más largas, lo que aumenta el total apostado por día y, con ello, las pérdidas esperadas (la pérdida esperada es proporcional al total apostado, a razón de −1/37 por ficha).
+- **Proporción de días ganadores se mantiene estable:** oscila entre 31.4% y 31.9% sin tendencia clara al variar m. Esto indica que el límite m no afecta significativamente la frecuencia con que se gana, sino la magnitud de las pérdidas cuando se pierde.
+- **Riesgo de ruina aparece con m ≥ 32:** con m=8 y m=16 la ruina es prácticamente inexistente (0%), pero salta a ~1.1% para m≥32. Con m≥32 una secuencia de rachas perdedoras puede superar el capital inicial de 50 fichas en una sola jornada, haciendo posible la ruina.
 
 ---
 
@@ -109,39 +128,45 @@ A medida que aumenta el límite de apuesta `m`, la estrategia de duplicación pu
 
 ### a) ¿Qué estrategia presenta la mayor ganancia promedio por día?
 
-Todas las estrategias tienen esperanza de ganancia negativa, ya que la probabilidad de ganar en una tirada es 18/37 < 1/2. Sin embargo, la ganancia promedio diaria depende de cuánto se apuesta en total por día: las estrategias que realizan menos apuestas (porque terminan antes el día o realizan apuestas más grandes que acortan el ciclo) tienden a perder menos en valor absoluto.
+**E3a (ciclo dinámico, opción 1)** presenta la menor pérdida promedio: −1.64 fichas por día. Le sigue E1 (−2.59), luego E2b (−4.59), E2a (−4.97), y finalmente E3b con la mayor pérdida promedio (−9.01).
 
-De los resultados de la simulación, **E1** (apuesta fija de 1 ficha) suele presentar la ganancia promedio menos negativa entre las estrategias que completan las `n` tiradas, ya que minimiza la exposición total al riesgo. Las estrategias de duplicación y ciclo dinámico apuestan sumas progresivamente más altas, aumentando la pérdida esperada cuando la racha es mala.
+La clave está en el total apostado por día: la pérdida esperada es proporcional a ese total (a razón de −1/37 por ficha). E3a apuesta en promedio solo 63 fichas por día porque termina la sesión en cuanto completa un ciclo (gana 10 fichas), limitando la exposición. E3b, en cambio, reinicia el ciclo y continúa hasta agotar las 100 tiradas, apostando 338 fichas en promedio: más de cinco veces más que E3a, con cinco veces más pérdida.
 
 ### b) ¿Qué estrategia presenta la mayor proporción de días en los que se gana?
 
-Las estrategias de duplicación (**E2a** y **E2b**) y de ciclo dinámico (**E3a** y **E3b**) están diseñadas para terminar el ciclo con ganancia siempre que ocurra al menos un resultado favorable antes de alcanzar los límites. Esto hace que su proporción de días ganadores sea mayor que la de la apuesta fija.
-
-En particular, **E2b** (duplicación con reinicio) y **E3b** (ciclo dinámico con reinicio) tienden a tener la mayor proporción de días con ganancia positiva, porque continúan apostando dentro del día aún después de alcanzar el límite.
+**E3a** con un 77.68% de días ganadores. Esto se explica porque la condición de éxito (tachar todos los números de la lista) otorga exactamente 10 fichas de ganancia neta, y ocurre con alta frecuencia antes de que la apuesta supere los límites. Las estrategias de duplicación (E2a: 31.2%, E2b: 31.6%) y la apuesta fija (E1: 36.2%) tienen proporciones mucho más bajas. E3b es la peor con solo 27.85%.
 
 ### c) ¿Qué estrategia presenta mayor variabilidad en las ganancias o pérdidas?
 
-Las estrategias de duplicación y ciclo dinámico presentan mayor varianza de la ganancia neta. Esto es característico de las estrategias que concentran pérdidas en pocas sesiones muy malas (cuando el capital se agota) y acumulan muchas sesiones con ganancias pequeñas. La apuesta fija, al distribuir las apuestas de manera uniforme, tiene una varianza más baja.
+**E3b** presenta la mayor varianza (2637), seguida por E2a (1403) y E2b (1401). E1 tiene la varianza más baja (101), lo que refleja el comportamiento estable de apostar siempre 1 ficha: las pérdidas o ganancias se acumulan gradualmente sin saltos bruscos. Las estrategias con apuestas progresivas concentran resultados extremos: muchas sesiones con ganancias moderadas y algunas con pérdidas catastróficas, lo que infla la varianza.
 
 ### d) ¿La estrategia que gana en una mayor proporción de sesiones es necesariamente la que obtiene la mayor ganancia promedio?
 
-No. Esta es la paradoja central de estas estrategias. Una estrategia puede ganar en el 60% de los días y aun así tener una ganancia promedio más negativa que otra que gana solo en el 45% de los días, si en los días que pierde lo hace de forma catastrófica (por ejemplo, perdiendo todo el capital).
+No en general, aunque en esta simulación coinciden para E3a. El punto central es que lo que determina la ganancia promedio no es la frecuencia de ganar sino el total apostado: ganancia esperada = total apostado × (−1/37). Una estrategia puede tener alta frecuencia de días ganadores y aun así tener peor promedio si sus días perdedores son muy costosos.
 
-Este es precisamente el mecanismo de las estrategias de duplicación y ciclo dinámico: ganan con alta frecuencia (ganancia de 1 o 10 fichas respectivamente), pero cuando pierden, pierden sumas mucho mayores. El valor esperado de todas estas estrategias sigue siendo negativo, solo redistribuyen las pérdidas de forma distinta.
+Un ejemplo concreto con los resultados: **E3b tiene menor proporción de días ganadores que E1** (27.85% vs. 36.16%), pero su pérdida promedio (−9.01) es mucho mayor que la de E1 (−2.59). Esto ocurre porque E3b apuesta 338 fichas en promedio por día versus 100 de E1. La alta frecuencia de pérdida de E3b se explica por el mismo mecanismo: al seguir jugando toda la jornada, acumula más pérdidas y tiene menos días donde la ganancia compensa.
 
 ### e) ¿Los resultados permiten afirmar que una estrategia es siempre mejor que las demás?
 
-No. Ninguna estrategia logra revertir la ventaja estructural del casino. El valor esperado de la ganancia por ficha apostada es siempre `−1/37 ≈ −2.7%`, independientemente de la estrategia utilizada, porque las tiradas son independientes y la probabilidad de ganar no cambia.
+No. Ninguna estrategia revierte la ventaja estructural del casino. El cociente ganancia_promedio / media_total_apostado es aproximadamente −1/37 ≈ −0.027 para las cinco estrategias:
 
-Lo que sí varía entre estrategias es el perfil de riesgo: frecuencia de ganar, magnitud de las pérdidas máximas y probabilidad de ruina. La elección de estrategia depende de la preferencia del jugador entre alta frecuencia de ganancias (con riesgo de ruina eventual) versus pérdidas pequeñas pero frecuentes.
+| Estrategia | Gan. prom. / Tot. ap. |
+|---|---|
+| E1 | −2.59 / 100.00 = −0.026 |
+| E2a | −4.97 / 164.33 = −0.030 |
+| E2b | −4.59 / 165.20 = −0.028 |
+| E3a | −1.64 / 63.17 = −0.026 |
+| E3b | −9.01 / 338.36 = −0.027 |
+
+El valor esperado por ficha apostada es siempre el mismo. Lo que varía es el perfil de riesgo: frecuencia de ganar, magnitud de las pérdidas cuando se pierde y probabilidad de ruina. La elección de estrategia es una decisión sobre cómo distribuir esas pérdidas, no una forma de evitarlas.
 
 ### f) ¿Se observa alguna relación entre la media del total apostado diario y la media de la ganancia neta diaria?
 
-Sí. Existe una relación proporcional: a mayor total apostado por día, mayor pérdida esperada. Esto se debe a que la ganancia esperada por ficha apostada es constante e igual a `−1/37`. Si el total apostado en un día es `T`, la ganancia esperada del día es:
+Sí, y los datos la confirman con notable precisión. A mayor total apostado por día, mayor pérdida esperada. La relación teórica es:
 
-`E[Ganancia] = T × (−1/37) ≈ −0.027 × T`
+`E[Ganancia] = Total apostado × (−1/37) ≈ −0.027 × Total apostado`
 
-Por lo tanto, las estrategias que realizan apuestas más grandes (como la duplicación con `m` alto) tienen en promedio pérdidas diarias mayores. La relación entre total apostado y ganancia neta esperada debería ser lineal con pendiente `−1/37`, lo que puede verificarse graficando ambas medias para cada estrategia.
+Los cinco pares (media_total_apostado, ganancia_promedio) se alinean sobre esta recta con pendiente −1/37, como muestra la tabla del ítem anterior. Esto tiene sentido porque las tiradas son independientes: no importa en qué orden ni cuánto se apuesta en cada una, la pérdida esperada por ficha siempre es 1/37. Las estrategias que apuestan más dinero por día simplemente "pagan más veces la comisión del casino".
 
 ---
 
