@@ -1,10 +1,10 @@
 source("ruleta.R")
 
+
 # Parametros del trabajo practico
 N_TIRADAS   <- 100
 CAPITAL     <- 50
 APUESTA_MAX <- 64
-N_REP       <- 10000
 
 # Lista de estrategias con nombres descriptivos
 estrategias <- list(
@@ -14,6 +14,24 @@ estrategias <- list(
   "E3a: Ciclo dinamico op.1" = sim_ciclo_op1,
   "E3b: Ciclo dinamico op.2" = sim_ciclo_op2
 )
+
+# ─── Actividad 2: simulaciones cortas ────────────────────────────────────────────────
+cat("=== Actividad 2: simulaciones cortas ===\n\n")
+
+# Parametros para una simulación corta de las estrategias.
+N_TIRADAS_CORTAS <- 10
+CAPITAL_CORTO    <- 10
+APUESTA_MAX_CORTA <- 4
+N_REP            <- 1000
+set.seed(42)
+
+for (nombre in names(estrategias)) {
+  r <- estrategias[[nombre]](N_TIRADAS_CORTAS, CAPITAL_CORTO, APUESTA_MAX_CORTA)
+  cat(sprintf("%-28s | capital final: %2d | ganancia: %+3d | tiradas: %d | apuestas: %s\n",
+              nombre, r$capital_final, r$ganancia_neta, length(r$apuestas),
+              paste(r$apuestas, collapse = ", ")))
+}
+
 
 # ─── Actividad 3: sesion unica ────────────────────────────────────────────────
 
@@ -27,7 +45,8 @@ for (nombre in names(estrategias)) {
 }
 
 # ─── Actividad 4: 10000 dias ──────────────────────────────────────────────────
-
+# A partir de aqui, las actividades restantes deben usar 10000 días de casino
+N_REP <- 10000
 cat("\n=== Actividad 4: 10000 dias (n=100, C=50, m=64) ===\n\n")
 set.seed(42)
 

@@ -87,7 +87,7 @@ sim_duplicacion_op2 <- function(n, capital_inicial, apuesta_maxima) {
     } else {
       capital   <- capital - apuesta
       siguiente <- apuesta * 2
-      apuesta   <- if (siguiente > apuesta_maxima) 1 else siguiente  # opcion 2
+      apuesta   <- if (siguiente > apuesta_maxima) 1 else siguiente  # opcion 2: Volvemos a apostar una sola ficha
     }
   }
 
