@@ -15,14 +15,14 @@ estrategias <- list(
   "E3b: Ciclo dinamico op.2" = sim_ciclo_op2
 )
 
-# ─── Actividad 2: simulaciones cortas ────────────────────────────────────────────────
-cat("=== Actividad 2: simulaciones cortas ===\n\n")
+# ─── Actividad 2: programar y verificar las estrategias ──────────────────────
+cat("=== Actividad 2: verificacion con simulaciones cortas ===\n\n")
 
-# Parametros para una simulación corta de las estrategias.
-N_TIRADAS_CORTAS <- 10
-CAPITAL_CORTO    <- 10
+# Simulacion corta (n=10, C=10, m=4) para verificar que cada estrategia
+# respeta sus reglas: apuestas validas y variaciones de capital correctas.
+N_TIRADAS_CORTAS  <- 10
+CAPITAL_CORTO     <- 10
 APUESTA_MAX_CORTA <- 4
-N_REP            <- 1000
 set.seed(42)
 
 for (nombre in names(estrategias)) {
@@ -30,6 +30,37 @@ for (nombre in names(estrategias)) {
   cat(sprintf("%-28s | capital final: %2d | ganancia: %+3d | tiradas: %d | apuestas: %s\n",
               nombre, r$capital_final, r$ganancia_neta, length(r$apuestas),
               paste(r$apuestas, collapse = ", ")))
+}
+
+# Simulacion de nRep = 1000 dias y verificacion automatica de reglas
+N_REP <- 1000
+cat(sprintf("\n=== Actividad 2: %d dias de simulacion (n=100, C=50, m=64) ===\n", N_REP))
+cat("Verificando que las apuestas y variaciones de capital respeten las reglas.\n\n")
+set.seed(42)
+
+for (nombre in names(estrategias)) {
+  errores <- character(0)
+
+  for (k in seq_len(N_REP)) {
+    r  <- estrategias[[nombre]](N_TIRADAS, CAPITAL, APUESTA_MAX)
+    ap <- r$apuestas
+
+    if (length(ap) > N_TIRADAS)
+      errores <- c(errores, "mas tiradas que n")
+    if (any(ap > APUESTA_MAX))
+      errores <- c(errores, "apuesta supera m")
+    if (any(ap < 1))
+      errores <- c(errores, "apuesta menor a 1")
+    if (r$capital_final < 0)
+      errores <- c(errores, "capital negativo")
+    if (r$ganancia_neta != r$capital_final - CAPITAL)
+      errores <- c(errores, "ganancia inconsistente")
+  }
+
+  errores <- unique(errores)
+  estado  <- if (length(errores) == 0) "OK" else paste(errores, collapse = ", ")
+  cat(sprintf("%-28s | %d dias simulados | reglas: %s\n",
+              nombre, N_REP, estado))
 }
 
 

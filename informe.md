@@ -55,7 +55,27 @@ Las cinco estrategias simuladas son:
 
 ---
 
-## 3. Actividad 3: Sesión única
+## 3. Actividad 2: Programar y verificar las estrategias
+
+Se programaron las cinco funciones de estrategia, cada una devolviendo el capital final, la ganancia neta y el vector de apuestas realizadas.
+
+### Verificación con simulaciones cortas
+
+Se verificaron las funciones con parámetros reducidos (`n = 10`, `C = 10`, `m = 4`) para inspeccionar visualmente que las apuestas y las variaciones del capital respeten las reglas de cada estrategia.
+
+![Output simulaciones cortas](capturas/actividad2_cortas.png)
+
+### Simulación de 1000 días
+
+Se simularon `nRep = 1000` días de casino con los parámetros normales (`n = 100`, `C = 50`, `m = 64`). Para cada estrategia se verificó automáticamente que ninguna apuesta supere el límite `m`, que ninguna apuesta sea menor a 1, que el capital nunca quede negativo, que la cantidad de tiradas no exceda `n` y que la ganancia neta sea consistente con el capital final. También se muestra la ganancia promedio obtenida.
+
+![Output 1000 días](capturas/actividad2_1000dias.png)
+
+Las cinco estrategias pasan todas las verificaciones y muestran ganancias promedio negativas, consistentes con la ventaja teórica del casino.
+
+---
+
+## 4. Actividad 3: Sesión única
 
 Se simuló una sesión de `n = 100` tiradas para cada estrategia con `set.seed(42)`.
 
@@ -72,7 +92,7 @@ Esta sesión ilustra la alta variabilidad entre estrategias incluso dentro de un
 
 ---
 
-## 4. Actividad 4: Repetición del experimento (10 000 días)
+## 5. Actividad 4: Repetición del experimento (10 000 días)
 
 Se simularon `nRep = 10 000` días independientes con cada una de las cinco estrategias.
 
@@ -98,7 +118,7 @@ Se simularon `nRep = 10 000` días independientes con cada una de las cinco estr
 
 ---
 
-## 5. Actividad 5: Efecto de la apuesta máxima (estrategia E2a)
+## 6. Actividad 5: Efecto de la apuesta máxima (estrategia E2a)
 
 Se mantuvo fijo `n = 100` y `C = 50`, variando `m` en {8, 16, 32, 64}.
 
@@ -124,7 +144,7 @@ A medida que aumenta el límite `m`, la estrategia de duplicación puede encaden
 
 ---
 
-## 6. Conclusiones
+## 7. Conclusiones
 
 ### a) ¿Qué estrategia presenta la mayor ganancia promedio por día?
 
@@ -170,7 +190,7 @@ Los cinco pares (media_total_apostado, ganancia_promedio) se alinean sobre esta 
 
 ---
 
-## 7. Conclusión general
+## 8. Conclusión general
 
 Las estrategias de duplicación y ciclo dinámico son presentadas frecuentemente como métodos para "ganar a la ruleta", basándose en que en teoría, con tiempo ilimitado y capital infinito, siempre terminarían con ganancia. En la práctica, los límites de apuesta del casino, el capital finito del jugador y la cantidad acotada de tiradas por día rompen esa garantía.
 
